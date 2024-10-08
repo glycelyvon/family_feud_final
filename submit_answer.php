@@ -29,4 +29,8 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $conn->close();
-?>
+
+// After inserting the answer, also update the leaderboard
+$updateScoreSql = "INSERT INTO leaderboard (player_name, total_score, game_date) VALUES ('$playerName', $totalScore, '$timestamp')
+                   ON DUPLICATE KEY UPDATE total_score = total_score + $totalScore";
+$conn->query($updateScoreSql);
